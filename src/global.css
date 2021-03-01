@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --dark: #303027;
+  --white: #FFFFFF;
+  --title: #666666;
+  --background: #F2F3F5;
+  --title-dark: #25251E;
+  --button: #585191;
+  --button-dark: #4B457C;
+  --red: #E83F5B;
+  --green: #4CD62B;
+}
+
+body {
+  background: var(--background);
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
