@@ -1,0 +1,68 @@
+.overlay {
+  background: rgba(242, 243, 245, 0.8);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page canvas {
+  margin: 0 auto;
+  width: 80% !important;
+  height: 100% !important;
+}
+
+.buttonsContainer {
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pagesControl {
+  display: flex;
+  background: var(--white);
+  width: 8rem;
+  height: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.pagesControl button {
+  background: var(--white); 
+  width: 2.5rem;
+  height: 2rem;
+  border-radius: 8px;
+  border: 0;
+  transition: background .3s;
+}
+
+.pagesControl button:hover {
+  background: #c1c1c1;
+}
+
+.closePdf {
+  width: 8rem;
+  height: 2rem;
+  background: var(--white);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  transition: all .3s;
+}
+
+.closePdf:hover {
+  background: #c1c1c1;
+  color: var(--white);
+}

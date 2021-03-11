@@ -1,0 +1,50 @@
+.container {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container h2 {
+  color: var(--text);
+  font-size: 1.8rem;
+  margin-top: 1.4rem;
+}
+
+.sectionCards {
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  justify-items: center;
+  margin-top: 2rem;
+  align-content: center;
+  height: 75vh;
+}
+
+.sectionCards section {
+  width: 20rem;
+  height: 10rem;
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+  transition: transform .3s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  color: var(--white);
+  text-align: center;
+}
+
+.sectionCards a:first-child section {
+  background: var(--red);
+}
+
+.sectionCards a:last-child section {
+  background: var(--green);
+}
+
+.sectionCards section:hover {
+  transform: scale(1.1);
+}

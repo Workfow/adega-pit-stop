@@ -1,34 +1,47 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
+const electronShortcut = require('electron-localshortcut');
+const isDev = require('electron-is-dev');
 const path = require('path')
+const server = require('./server/index');
+
+require('electron-reload')(__dirname);
 
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1000,
     height: 600,
+    minWidth: 930,
+    minHeight: 600,
     icon: 'public/logo192.png',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      webSecurity: false
     }
   })
 
   // and load the index.html of the app.
-  mainWindow.loadURL('http://localhost:3000')
+  mainWindow.loadURL(
+    isDev
+    ? "http://localhost:3000"
+    : `file://${path.join(__dirname, "../build/index.html")}`
+    );
 
-  //Remove menu bar
+  let isMenuVisible = false;
+  mainWindow.setMenuBarVisibility(isMenuVisible);
+  electronShortcut.register(mainWindow ,'Ctrl+B', () => {
+    isMenuVisible ? isMenuVisible = false : isMenuVisible = true
+    mainWindow.setMenuBarVisibility(isMenuVisible)
+  })
+
   
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  createWindow()
-  
+  createWindow();
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
