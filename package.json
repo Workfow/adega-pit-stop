@@ -1,5 +1,5 @@
 {
-  "name": "adega-pit-stop",
+  "name": "adega-recanto-da-cerveja",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,7 +17,7 @@
     "electron-reload": "^1.5.0",
     "express": "^4.17.1",
     "multer": "^1.4.2",
-    "nodemon": "^2.0.7",
+    "node-thermal-printer": "^4.1.2",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "react": "^17.0.1",
@@ -27,9 +27,13 @@
     "react-pdf": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-select": "^4.3.0",
     "sequelize": "^6.5.0",
+    "socket.io": "^4.0.0",
+    "socket.io-client": "^4.0.0",
     "wait-on": "^5.2.1",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "electron": "^11.3.0",

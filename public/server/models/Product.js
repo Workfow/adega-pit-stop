@@ -4,9 +4,11 @@ class Product extends Model {
   static init(sequelize) {
     super.init({
       icon: DataTypes.STRING,
+      barcode: DataTypes.STRING,
       name: DataTypes.STRING,
       price: DataTypes.FLOAT,
-      amount: DataTypes.INTEGER
+      amount: DataTypes.INTEGER,
+      category_id: DataTypes.INTEGER
     }, {
       sequelize
     })

@@ -3,7 +3,7 @@ const path = require("path");
 
 const imageStorage = Multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.resolve(__dirname, "..", "..", "..", "src", "uploads", "images"));
+    cb(null, path.resolve(__dirname, "..", "..", "uploads", "images"));
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
@@ -15,7 +15,7 @@ const imageStorage = Multer.diskStorage({
 
 const pdfStorage = Multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.resolve(__dirname, "..", "..", "..", "src", 'uploads', 'invoices'))
+    cb(null, path.resolve(__dirname, "..", "..", 'uploads', 'invoices'))
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);

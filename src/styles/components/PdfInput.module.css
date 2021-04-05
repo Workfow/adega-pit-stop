@@ -1,0 +1,30 @@
+.inputBox {
+  display: flex;
+  position: relative;
+}
+
+.inputBox input {
+  font-size: 18px;
+  border: 0;
+  margin-bottom: 3rem;
+  visibility: hidden;
+  width: 300px
+}
+.inputBox label {
+  background: #C1C1C1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  padding-left: 10px;
+  color: var(--white);
+  font-size: .9rem;
+  cursor: pointer;
+  width: 300px;
+  height: 46px;
+  transition: filter .3s;
+}
+
+.inputBox label:hover {
+  filter: brightness(0.8);
+}

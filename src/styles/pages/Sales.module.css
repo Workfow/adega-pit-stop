@@ -1,0 +1,123 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.container .titleContainer {
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text);
+}
+
+.container .titleContainer h2 {
+  font-size: 1.8rem;
+}
+
+.container .titleContainer h3 {
+  font-size: 1rem;
+}
+
+
+.listContainer {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.listContainer ul {
+  width: 100%;
+  border-radius: 8px;
+  list-style: none;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.3)
+}
+
+.listContainer ul header {
+  font-family: Poppins, sans-serif;
+  font-weight: bold;
+  background: var(--green);
+  height: 2.6rem;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2rem;
+}
+
+.listContainer ul header span:first-child {
+  margin-left: 1rem;
+}
+
+.listContainer ul header span:last-child {
+  margin-right: 1.5rem;
+}
+
+.listContainer ul li {
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--dark);
+  border-top: 1px solid var(--dark);
+  background: #dbdbdb;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.listContainer ul li:nth-child(2n + 1) {
+  background: var(--white);
+  color: var(--text);
+}
+
+.listContainer ul li:nth-child(2) {
+  border-radius: 8px 8px 0 0;
+}
+
+.listContainer ul li:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.listContainer ul li > span {
+  margin-left: .5rem;
+  font-size: 1.2rem;
+  
+  overflow: hidden;
+  white-space: nowrap;
+  width: 29ch;
+  text-overflow: ellipsis;
+}
+
+.listContainer ul li div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 15rem;
+  margin-right: 1.3rem;
+}
+
+
+.listContainer ul li svg:hover {
+  color: var(--dark);
+}
+
+.addButton {
+  position: fixed;
+  bottom: 1rem;
+  right: 2rem;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  border: 0;
+  background: var(--white);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

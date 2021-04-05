@@ -15,6 +15,7 @@ function createWindow () {
     minWidth: 930,
     minHeight: 600,
     icon: 'public/logo192.png',
+    title: 'Adega Recanto da Cerveja',
     webPreferences: {
       webSecurity: false
     }

@@ -1,30 +1,138 @@
 import { useContext, useRef, useEffect, useState } from "react";
 import { Form } from "@unform/web";
+import * as Yup from "yup";
+import { setLocale } from "yup";
+import translation from "../../utils/YupTranslation";
 import styles from "../../styles/components/InventoryModal.module.css";
 import { InventoryContext } from "../../contexts/InventoryContext";
+import api from '../../services/api';
+import socket from "../../services/socket";
 
 import { FiX } from "react-icons/fi";
 import Input from "../../components/Input";
+import Select from 'react-select';
 import Button from "../Button";
 import ImageInput from "../ImageInput";
 
-import noImage from "../../uploads/images/noImage.png";
-
 export default function InventoryModal({ buttonText, update }) {
-  const { handleToggleModal, submitForm, submitUpdateForm, currentData } = useContext(
-    InventoryContext
-  );
-  const formRef = useRef(null);
+  const {
+    handleToggleModal,
+    submitForm,
+    submitUpdateForm,
+    currentData,
+  } = useContext(InventoryContext);
+  const formRef = useRef();
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [options, setOptions ] = useState([]);
+  const [ selectedValue, setSelectedValue ] = useState({});
 
-  function handleSubmit(data, { reset }) {
+  setLocale(translation);
+
+  async function handleSubmit(data, { reset }) {
     if (update) {
-      submitUpdateForm(data);
+      try {
+        formRef.current.setErrors({});
+
+        const schema = Yup.object().shape({
+          name: Yup.string().min(4).required(),
+          price: Yup.number().required(),
+          amount: Yup.number().required(),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        console.log(data);
+        // submitForm(data);
+        setIsSuccessful(true);
+        reset();
+        submitUpdateForm(data, selectedValue);
+      } catch (error) {
+        const validationErrors = {};
+
+        if (error instanceof Yup.ValidationError) {
+          error.inner.forEach((err) => {
+            validationErrors[err.path] = err.message;
+          });
+        }
+
+        formRef.current.setErrors(validationErrors);
+        console.log(validationErrors);
+      }
     } else {
-      submitForm(data);
+      try {
+        formRef.current.setErrors({});
+
+        const schema = Yup.object().shape({
+          barcode: Yup.string().min(6).required(),
+          name: Yup.string().min(4).required(),
+          price: Yup.number().required(),
+          amount: Yup.number().required(),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        console.log(data);
+        submitForm(data, selectedValue);
+        setIsSuccessful(true);
+        reset();
+      } catch (error) {
+        const validationErrors = {};
+
+        if (error instanceof Yup.ValidationError) {
+          error.inner.forEach((err) => {
+            validationErrors[err.path] = err.message;
+          });
+        }
+
+        formRef.current.setErrors(validationErrors);
+        console.log(validationErrors);
+      }
+    }
+  }
+
+  async function loadCategories() {
+    const response = await api.get('/categories');
+    
+    const loadedCategories = response.data;
+
+    const categoryOptions = loadedCategories.map(item => {
+      return {
+        value: item.id,
+        label: item.name
+      }
+    })
+    
+    setOptions(categoryOptions);
+  }
+
+  async function loadDefaultValue() {
+    const response = await api.get(`/categories/${currentData.category_id}`)
+
+    const loadedCategory = response.data;
+
+    const categoryOption = {
+      value: loadedCategory.id,
+      label: loadedCategory.name
     }
 
-    reset();
+    setSelectedValue(categoryOption);
+
   }
+
+  useEffect(() => {
+    loadCategories();
+    loadDefaultValue();
+  }, [])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsSuccessful(false);
+    }, 2000);
+  }, [isSuccessful]);
 
   useEffect(() => {
     update
@@ -33,8 +141,46 @@ export default function InventoryModal({ buttonText, update }) {
           price: currentData.price,
           amount: currentData.amount,
         })
-      : formRef.current.setData({ name: "" });
+      : formRef.current.setData({ name: "", barcode: "" });
   }, [currentData, update]);
+
+  useEffect(() => {
+    socket.on("change_input", (data) => {
+      setTimeout(() => {
+        formRef.current?.setData({
+          barcode: data.barcode,
+          name: data.name,
+          price: data.price,
+          amount: data.amount,
+        });
+      }, 200);
+    });
+  }, []);
+
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? '#585191' : '#FFFFFF',
+    }),
+    control: (provided, state) => ({
+      minHeight: 46,
+      width: 300,
+      border: state.isFocused ? '2px solid #585191' :'2px solid #c1c1c1',
+      borderRadius: 8,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      transition: 'all .3s',
+    }),
+    dropdownIndicator: (provided, state) => ({
+      width: '2.3rem',
+    }),
+    clearIndicator: (provided, state) => ({
+      position: 'absolute',
+      right: 0,
+      bottom: '2.3rem'
+    })
+  }
 
   return (
     <div className={styles.overlay}>
@@ -51,19 +197,20 @@ export default function InventoryModal({ buttonText, update }) {
           {update ? (
             <img
               src={
-                require(`../../uploads/images/${
-                  currentData.icon ? currentData.icon : "noImage.png"
-                }`).default
+                currentData.icon
+                  ? `http://localhost:3333/icon?icon=${currentData.icon}`
+                  : require("../../uploads/images/noImage.png").default
               }
               alt=""
             />
           ) : (
-            <img src={require('../../uploads/images/noImage.png').default} />
+            <img src={require("../../uploads/images/noImage.png").default} />
           )}
           <ImageInput
             name="icon"
             placeholder="Clique para escolher uma imagem"
           />
+          {!update && <Input name="barcode" placeholder="Código de barras" />}
           <Input name="name" placeholder="Nome do produto" maxlength="40" />
           <Input
             name="price"
@@ -77,11 +224,36 @@ export default function InventoryModal({ buttonText, update }) {
             min="0"
             placeholder="Quantidade do produto"
           />
+          {update ? (
+            <Select
+            value={selectedValue}
+            onChange={selectedOption => setSelectedValue(selectedOption)}
+            options={options}
+            className={styles.select}
+            styles={customStyles}
+          />
+          ) : (
+            <Select
+            onChange={selectedOption => setSelectedValue(selectedOption)}
+            options={options}
+            className={styles.select}
+            styles={customStyles}
+          />
+          )}
 
           {update ? (
             <Button type="submit">Atualizar</Button>
           ) : (
             <Button type="submit">Cadastrar</Button>
+          )}
+          {isSuccessful && (
+            <div className={styles.successWarn}>
+              {update ? (
+                <span>Produto atualizado com sucesso</span>
+              ) : (
+                <span>Produto cadastrado com sucesso</span>
+              )}
+            </div>
           )}
         </Form>
       </div>

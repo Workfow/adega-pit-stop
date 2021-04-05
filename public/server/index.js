@@ -1,17 +1,44 @@
-const express = require('express');
-const cors = require('cors');
-const routes = require('./routes');
+const app = require('./app');
+const server = app.listen(3333);
+const socketio = require('socket.io');
 
-require('./database');
+const io = socketio(server);
 
-const app = express();
 
-app.use(cors())
-app.use(express.json());
-app.use(routes);
+io.on('connection', (socket) => {
+  console.log(`Socket id: ${socket.id}`);
 
-app.get('/test', (req, resp) => {
-  return resp.json({ message: "Funcionou" });
+  socket.on('toggle_inventory_modal', () => {
+    io.emit('toggle_inventory_modal')
+  })
+
+  socket.on('change_input', (data) => {
+    io.emit('change_input', data);
+  })
+
+  socket.on('cancel_register', () => {
+    io.emit('cancel_register')
+  })
+
+  socket.on('init_sale', () => {
+    io.emit('init_sale')
+  })
+
+  socket.on('scanned_products', data => {
+    io.emit('scanned_products', data);
+  })
+
+  socket.on('change_amount', data => {
+    io.emit('change_amount', data);
+  })
+
+  socket.on('finish_sale', () => {
+    io.emit('finish_sale');
+  })
+
+  socket.on('confirm_sale', () => {
+    io.emit('confirm_sale');
+  })
 })
 
-app.listen(3333, () => console.log('Server running on port 3333'));
+// app.listen(3333, () => console.log('Server running on port 3333 with socket'));

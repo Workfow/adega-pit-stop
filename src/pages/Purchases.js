@@ -6,7 +6,12 @@ import api from "../services/api";
 import { FinancialContext } from "../contexts/FinancialContext";
 
 export default function Purchases() {
-  const { handleTogglePdfModal } = useContext(FinancialContext);
+  const {
+    handleTogglePdfModal,
+    handleTogglePurchaseModal,
+    submitForm,
+    handleToggleDeletePurchaseModal,
+  } = useContext(FinancialContext);
   const [purchases, setPurchases] = useState([]);
   const [totalValue, setTotalValue] = useState(0);
 
@@ -19,12 +24,17 @@ export default function Purchases() {
 
   useEffect(() => {
     loadPurchases();
-  }, []);
+  }, [submitForm]);
 
   return (
     <>
       <div className={styles.container}>
-        <h2>Compras</h2>
+        <div className={styles.titleContainer}>
+          <h2>Compras</h2>
+          <h3>
+            Quando tiver efetuado o pagamento, clique no item para remover.
+          </h3>
+        </div>
 
         <div className={styles.listContainer}>
           <IntlProvider locale="pt">
@@ -40,26 +50,39 @@ export default function Purchases() {
                   />{" "}
                 </span>
               </header>
-              {purchases.map((item) => (
-                <li>
-                  <span>{item.description} </span>
-                  <div>
-                    <strong>
-                      <FormattedNumber
-                        value={item.value}
-                        style="currency"
-                        currency="BRL"
-                      />
-                    </strong>
-                    <FiFileText onClick={handleTogglePdfModal} size={25} />
-                  </div>
-                </li>
-              ))}
+              {!purchases ? (
+                <h2 style={{ textAlign: 'center'}} >Nenhuma compra cadastrada</h2>
+              ) : (
+                <div>
+                  {purchases.map((item) => (
+                    <li key={item.id} onClick={() => handleToggleDeletePurchaseModal(item)}>
+                      <span>{item.description} </span>
+                      <div>
+                        <strong>
+                          <FormattedNumber
+                            value={item.value}
+                            style="currency"
+                            currency="BRL"
+                          />
+                        </strong>
+                        <FiFileText
+                          onClick={() => handleTogglePdfModal(item.invoice)}
+                          size={25}
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </div>
+              )}
             </ul>
           </IntlProvider>
         </div>
       </div>
-      <button className={styles.addButton} type="button">
+      <button
+        onClick={handleTogglePurchaseModal}
+        className={styles.addButton}
+        type="button"
+      >
         <FiPlus size={35} />
       </button>
     </>

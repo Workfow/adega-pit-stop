@@ -1,0 +1,61 @@
+.inputBox {
+  display: flex;
+  position: relative;
+  margin-top: 2rem;
+}
+
+.inputBox input {
+  width: 500px;
+  height: 46px;
+  border-radius: 8px 0 0 8px;
+  background: var(--light);
+  font-size: 18px;
+  border: 2px solid #c1c1c1;
+  border-right: 0;
+  padding-left: 10px;
+  margin-bottom: 2rem;
+  transition: border .3s;
+}
+
+.inputBox input:focus {
+  border: 2px solid var(--button);
+  border-right: 0;
+}
+
+.inputBox label {
+  color: #969696;
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  transition: all 0.3s;
+  cursor: text;
+}
+
+.inputBox input:focus + label,
+.inputBox input:not(:placeholder-shown) + label {
+  transform: translate(-5px, -34px);
+  font-weight: bold;
+  color: var(--button);
+  cursor: default;
+}
+
+.inputBox button {
+  height: 46px;
+  width: 3.5rem;
+  border: 2px solid var(--button);
+  border-left: 0;
+  border-radius: 0 8px 8px 0;
+  background: var(--button);
+  transition: background .3s;
+}
+
+.inputBox button:hover {
+  background: var(--button-dark);
+}
+
+.inputBox > svg {
+  position: absolute;
+  cursor: pointer;
+  right: 4rem;
+  top: 0.6rem;
+}

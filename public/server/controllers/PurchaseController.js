@@ -1,11 +1,14 @@
 const fs = require("fs");
 const path = require("path");
 const Purchase = require("../models/Purchase");
+const Product = require("../models/Product");
 
 module.exports = {
   async store(req, resp) {
-    const { description, value } = req.body;
+    const { description, value, products } = req.body;
     const invoice = req.file?.filename;
+
+    const currentProducts = JSON.parse(products);
 
     const dbPurchase = await Purchase.findOne({
       where: { description },
@@ -14,9 +17,29 @@ module.exports = {
     if (dbPurchase) {
       return resp.json({ error: "Compra ja cadastrada no sistema" });
     } else {
-      const purchase = await Purchase.create({ invoice, description, value });
 
-      return resp.json(purchase);
+      try {
+        const purchase = await Purchase.create({ invoice, description, value });
+
+        for (let i = 0; i < currentProducts.length; i++) {
+          const currentProduct = await Product.findOne({
+            where: { id: currentProducts[i].value },
+          });
+
+          const currentAmount = currentProduct.amount;
+
+          await Product.update(
+            {
+              amount: currentAmount + currentProducts[i].amount,
+            },
+            { where: { id: currentProducts[i].value } }
+          );
+        }
+
+        return resp.json(purchase);
+      } catch (error) {
+        console.log("Erro aqui ", error);
+      }
     }
   },
 
@@ -62,8 +85,6 @@ module.exports = {
         __dirname,
         "..",
         "..",
-        '..',
-        'src',
         "uploads",
         `invoices/${file.invoice}`
       );
@@ -97,14 +118,12 @@ module.exports = {
       __dirname,
       "..",
       "..",
-      '..',
-      'src',
       "uploads",
       `invoices/${file.invoice}`
     );
 
     fs.unlinkSync(removePath);
 
-    return resp.json({ message: "Compra excluída com sucesso" })
+    return resp.json({ message: "Compra excluída com sucesso" });
   },
 };

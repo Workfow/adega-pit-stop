@@ -6,12 +6,23 @@
   width: 100%;
 }
 
-.container > h2 {
-  color: var(--text);
-  font-size: 1.8rem;
+.container .titleContainer {
   margin-top: 4rem;
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text);
 }
+
+.container .titleContainer h2 {
+  font-size: 1.8rem;
+}
+
+.container .titleContainer h3 {
+  font-size: 1rem;
+}
+
 
 .listContainer {
   width: 55%;
@@ -57,6 +68,7 @@
   color: var(--text);
   border-top: 1px solid var(--dark);
   background: #dbdbdb;
+  cursor: pointer;
 }
 
 .listContainer ul li:nth-child(2n + 1) {

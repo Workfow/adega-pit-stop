@@ -1,0 +1,228 @@
+.modal {
+  background: var(--white);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.modal .controlButtons {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 6rem;
+}
+
+.modal .controlButtons svg {
+  transition: color .3s;
+  cursor: pointer;
+}
+
+.modal .controlButtons svg:hover {
+  color: var(--green);
+}
+
+.modal .controlButtons svg:last-child:hover {
+  color: var(--red);
+}
+
+.products {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  height: 85%;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.3rem;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.products > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 2rem;
+  height: 2rem;
+  background: var(--light);
+  border: 1px solid var(--dark);
+  border-radius: 4px;
+  padding: 0 1rem;
+  margin-bottom: .2rem;
+}
+
+.products .priceContainer {
+  width: 35%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.products div input {
+  width: 3rem;
+}
+
+.products div input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.details {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+  height: 85%;
+  border-radius: 8px;
+  margin-right: 1rem;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.details div {
+  width: 80%;
+}
+
+.details div h3 {
+  color: var(--text);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.details div span {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 4.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-size: 2rem;
+  color: var(--dark);
+}
+
+.details div input {
+  width: 100%;
+  height: 4.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-size: 2rem;
+  color: var(--dark);
+  transition: border .3s;
+}
+
+.details div input:focus {
+  border: 2px solid var(--text);
+}
+
+.details div input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.details button {
+  width: 5.5rem;
+  height: 2rem;
+  border-radius: 5px;
+  border: 0;
+  background-color: var(--green);
+  color: var(--white);
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: filter .3s;
+  
+  position: fixed;
+  bottom: 2.5rem;
+  right: 1.5rem;
+} 
+
+.details button:hover {
+  filter: brightness(.7)
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.confirmWindowOverlay {
+  background: rgba(242, 243, 245, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmWindow {
+  background: var(--white);
+  width: 28rem;
+  height: 10rem;
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.confirmWindow h2 {
+  text-align: center; 
+  color: var(--text);
+}
+
+.confirmWindow div {
+  width: 9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.confirmWindow div button {
+  width: 4rem;
+  height: 2rem;
+  border: 0;
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: filter .3s;
+}
+
+.confirmWindow div button:first-child{ 
+  background: var(--red);
+}
+
+.confirmWindow div button:last-child {
+  background: var(--green);
+}
+
+.confirmWindow div button:hover {
+  filter: brightness(.7);
+}
+
+.saleModalButton {
+  background: var(--green);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 0;
+  position: fixed;
+  top: 0.6rem;
+  right: 0.6rem;
+}

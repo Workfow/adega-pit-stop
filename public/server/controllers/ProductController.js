@@ -4,23 +4,37 @@ const Product = require("../models/Product");
 
 module.exports = {
   async store(req, resp) {
-    const { name, price, amount } = req.body;
+    const { barcode, name, price, amount, category_id } = req.body;
     const icon = req.file?.filename;
 
-    const dbProduct = await Product.findOne({
+    const dbProductBarcode = await Product.findOne({
+      where: { barcode },
+    })
+
+    const dbProductName = await Product.findOne({
       where: { name },
     });
 
-    if (dbProduct) {
-      return resp.json({ error: "Produto já está cadastrado no estoque" });
+    if (dbProductName ) {
+      return resp.json({ error: "Já existe um produto com este nome no estoque." });
+    } else if (dbProductBarcode) {
+      return resp.json({ error: "Já existe um produto com este código de barras no estoque."})
     } else {
-      const product = await Product.create({ icon, name, price, amount });
+      const product = await Product.create({ barcode, icon, name, price, amount, category_id });
 
       return resp.json(product);
     }
   },
 
   async index(req, resp) {
+    const { barcode } = req.query;
+    if(barcode) {
+      const product = await Product.findOne({
+        where: { barcode }
+      })
+
+      return resp.json(product);
+    }
     const products = await Product.findAll();
 
     if (products.length === 0) {
@@ -28,6 +42,19 @@ module.exports = {
     }
 
     return resp.json(products);
+  },
+
+  async indexCategory(req, resp) {
+    const { id } = req.params;
+
+    const products = await Product.findAll({
+      where: {
+        category_id: id
+      }
+    })
+
+    return resp.json(products);
+
   },
 
   async update(req, resp) {
@@ -51,7 +78,7 @@ module.exports = {
         { where: { id } }
       );
 
-      const removePath = path.resolve(__dirname, '..', '..', '..', 'src', 'uploads', `images/${file.icon}`)
+      const removePath = path.resolve(__dirname, '..', '..', 'uploads', `images/${file.icon}`)
 
       fs.unlinkSync(removePath);
     } else {
@@ -77,7 +104,7 @@ module.exports = {
       where: { id },
     });
 
-    const removePath = path.resolve(__dirname, '..', '..', '..', 'src', 'uploads', `images/${file.icon}`)
+    const removePath = path.resolve(__dirname, '..', '..', 'uploads', `images/${file.icon}`)
 
     fs.unlinkSync(removePath);
 

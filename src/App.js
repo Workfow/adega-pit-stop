@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import api from './services/api';
+import socket from './services/socket';
 import { Link } from "react-router-dom";
+import { InventoryContext } from './contexts/InventoryContext';
 import "./app.css";
 
 function App() {
+  const { handleToggleModal } = useContext(InventoryContext);
   const [ recentProducts, setRecentProducts ] = useState([]);
   const [ recentPurchases, setRecentPurchases ] = useState([]);
 
@@ -17,6 +20,12 @@ function App() {
 
   useEffect(() => {
     loadRecent()
+  }, [])
+
+  useEffect(() => {
+    socket.on('toggle_inventory_modal', () => {
+      handleToggleModal();
+    })
   }, [])
 
   return (

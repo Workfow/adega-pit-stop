@@ -1,0 +1,80 @@
+.overlay {
+  background: rgba(242, 243, 245, 0.8);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: var(--white);
+  width: 500px;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+}
+
+.modal h2 {
+  color: var(--text);
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.modal h3 {
+  margin-bottom: 2rem;
+  color: var(--text);
+  font-size: 1.2rem;
+}
+
+.modal div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.modal div strong {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.modal div:last-child {
+  flex-direction: row;
+  justify-content: space-between;
+  width: 12rem;
+  margin: 0;
+}
+
+.modal div button {
+  width: 5.5rem;
+  height: 2rem;
+  border-radius: 5px;
+  border: 0;
+  color: var(--white);
+  font-weight: bold;
+  transition: filter .3s;
+}
+
+.modal div button:hover {
+  filter: brightness(.7)
+}
+
+.modal div button:first-child {
+  background: var(--red);
+}
+
+.modal div button:last-child {
+  background: var(--green);
+}
