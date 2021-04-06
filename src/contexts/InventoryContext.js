@@ -53,6 +53,7 @@ export function InventoryProvider({ children }) {
     formData.append("icon", data.icon);
     formData.append('barcode', data.barcode);
     formData.append("name", data.name);
+    formData.append("cost", data.cost);
     formData.append("price", data.price);
     formData.append("amount", data.amount);
     formData.append("category_id", selectedValue.value);
@@ -63,6 +64,7 @@ export function InventoryProvider({ children }) {
       },
     });
 
+    console.log(response.data);
     loadProducts();
   }
 

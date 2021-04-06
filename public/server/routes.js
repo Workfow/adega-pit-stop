@@ -38,6 +38,7 @@ routes.delete('/sales/:id', SalesController.destroy);
 routes.get('/categories', CategoryController.index);
 routes.get('/categories/:id', CategoryController.indexOne);
 routes.post('/categories', CategoryController.store);
+routes.delete('/categories/:id', CategoryController.destroy);
 
 //Files
 routes.get('/icon', (req, resp) => {

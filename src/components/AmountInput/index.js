@@ -19,6 +19,6 @@ export default function AmountInput({ currentItem, purchase }) {
   }, [amount])
 
   return (
-    <input onFocus={event => event.target.select()} onClick={event => event.target.select()} type="number" maxlength="4" autoFocus={true} value={amount} onChange={event => setAmount(event.target.value)} />
+    <input className={styles.amountInput} onFocus={event => event.target.select()} onClick={event => event.target.select()} type="number" maxlength="4" autoFocus={true} value={amount} onChange={event => setAmount(event.target.value)} />
   )
 }

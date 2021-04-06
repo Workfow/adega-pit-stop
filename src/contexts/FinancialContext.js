@@ -66,12 +66,16 @@ export function FinancialProvider({ children }) {
     setProducts([...newProducts]);
   }
 
-  async function submitForm(data) {
+  async function submitForm(data, formCost) {
     const formData = new FormData();
 
     const productsObj = JSON.stringify(products);
 
-    console.log(productsObj);
+    console.log(formCost)
+
+    const costResponse = await api.put(`/products/${formCost.costItem.value}`, {
+      cost: Number(formCost.cost)
+    })
 
     formData.append("invoice", data.invoice);
     formData.append("description", data.description);

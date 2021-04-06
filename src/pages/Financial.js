@@ -19,6 +19,12 @@ export default function Financial() {
             <p>Clique aqui para ver um relatório de suas vendas</p>
           </section>
         </Link>
+        {/* <Link to="/report">
+          <section>
+            <h3>Geral</h3>
+            <p>Clique aqui para ver um relatório geral</p>
+          </section>
+        </Link> */}
       </div>
     </div>
   );

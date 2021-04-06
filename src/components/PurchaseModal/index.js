@@ -13,13 +13,31 @@ import Input from '../Input';
 import Button from '../Button';
 import Select from 'react-select';
 import AmountInput from '../AmountInput';
+import CostInput from '../CostInput';
 
 export default function PurchaseModal() {
   const { handleTogglePurchaseModal, submitForm, selectedProducts, setSelectedProducts } = useContext(FinancialContext);
   const [ options, setOptions ] = useState([]);
+  const [ cost, setCost ] = useState();
+  const [ costItem, setCostItem ] = useState();
+
   const formRef = useRef();
 
   setLocale(translation);
+
+  useEffect(() => {
+    console.log('Item ', costItem);
+    console.log('Cost ', cost);
+  }, [cost])
+
+  useEffect(() => {
+    setSelectedProducts([]);
+  }, [])
+
+  function handleCost(item, cost) {
+    setCostItem(item);
+    setCost(cost);
+  }
 
   async function handleSubmit(data, {reset}) {
     
@@ -35,7 +53,15 @@ export default function PurchaseModal() {
         abortEarly: false
       })
 
-      submitForm(data, selectedProducts);
+      if(!cost) {
+        alert('Insira o valor de custo');
+      } else {
+        const formCost = {
+          cost,
+          costItem
+        }
+        submitForm(data, formCost);
+      }
 
       reset();
 
@@ -62,7 +88,7 @@ export default function PurchaseModal() {
 
     const loadedProducts = response.data;
 
-    const productOptions = loadedProducts.map(item => {
+    const productOptions = loadedProducts?.map(item => {
       return {
         value: item.id,
         label: item.name,
@@ -126,6 +152,7 @@ export default function PurchaseModal() {
               <div className={styles.productItem}>
                 <span className={styles.itemName} >{item.label}</span>
                 <AmountInput currentItem={item} purchase={true} name="amount" type="number"/>
+                <CostInput name="cost" placeholder="Custo" type="number" step="0.01" value={cost} onChange={(event) => handleCost(item, event.target.value)} />
               </div>
             ))}
           </div>

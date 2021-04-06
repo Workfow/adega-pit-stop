@@ -4,7 +4,7 @@ const Product = require("../models/Product");
 
 module.exports = {
   async store(req, resp) {
-    const { barcode, name, price, amount, category_id } = req.body;
+    const { barcode, name, cost, price, amount, category_id } = req.body;
     const icon = req.file?.filename;
 
     const dbProductBarcode = await Product.findOne({
@@ -20,7 +20,7 @@ module.exports = {
     } else if (dbProductBarcode) {
       return resp.json({ error: "Já existe um produto com este código de barras no estoque."})
     } else {
-      const product = await Product.create({ barcode, icon, name, price, amount, category_id });
+      const product = await Product.create({ barcode, icon, name, cost, price, amount, category_id });
 
       return resp.json(product);
     }
@@ -59,7 +59,7 @@ module.exports = {
 
   async update(req, resp) {
     const { id } = req.params;
-    const { name, price, amount } = req.body;
+    const { name, cost, price, amount, category_id } = req.body;
     const icon = req.file?.filename;
 
     if (icon) {
@@ -72,8 +72,10 @@ module.exports = {
         {
           icon,
           name,
+          cost,
           price,
           amount,
+          category_id
         },
         { where: { id } }
       );
@@ -84,6 +86,7 @@ module.exports = {
     } else {
       await Product.update({
         name,
+        cost,
         price,
         amount
       }, {where: { id }})

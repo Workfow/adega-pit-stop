@@ -24,7 +24,7 @@
   align-items: center;
   justify-content: space-evenly;
   position: relative;
-  margin-top: 10rem;
+  margin-top: 4.5rem;
   margin-bottom: 2rem;
 }
 
@@ -55,10 +55,4 @@
 
 .modal form .select {
   margin-bottom: 1.6rem;
-}
-
-.modal .successWarn {
-  margin-top: 1rem;
-  color: var(--green);
-  text-shadow: 0 0 20px var(--dark);
 }

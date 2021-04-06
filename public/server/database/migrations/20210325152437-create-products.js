@@ -18,6 +18,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      cost: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+      },
       price: {
         type: Sequelize.FLOAT,
         allowNull: false,

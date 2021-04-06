@@ -25,5 +25,13 @@ module.exports = {
     });
 
     return resp.json(category);
+  },
+
+  async destroy(req, resp ) {
+    const { id } = req.params;
+
+    await Category.destroy({
+      where: { id }
+    })
   }
 }

@@ -26,6 +26,10 @@ export default function InventoryModal({ buttonText, update }) {
   const [options, setOptions ] = useState([]);
   const [ selectedValue, setSelectedValue ] = useState({});
 
+  useEffect(() => {
+    console.log(selectedValue);
+  }, [selectedValue])
+
   setLocale(translation);
 
   async function handleSubmit(data, { reset }) {
@@ -42,9 +46,6 @@ export default function InventoryModal({ buttonText, update }) {
         await schema.validate(data, {
           abortEarly: false,
         });
-
-        console.log(data);
-        // submitForm(data);
         setIsSuccessful(true);
         reset();
         submitUpdateForm(data, selectedValue);
@@ -67,6 +68,7 @@ export default function InventoryModal({ buttonText, update }) {
         const schema = Yup.object().shape({
           barcode: Yup.string().min(6).required(),
           name: Yup.string().min(4).required(),
+          cost: Yup.number().required(),
           price: Yup.number().required(),
           amount: Yup.number().required(),
         });
@@ -150,6 +152,7 @@ export default function InventoryModal({ buttonText, update }) {
         formRef.current?.setData({
           barcode: data.barcode,
           name: data.name,
+          cost: data.cost,
           price: data.price,
           amount: data.amount,
         });
@@ -212,6 +215,12 @@ export default function InventoryModal({ buttonText, update }) {
           />
           {!update && <Input name="barcode" placeholder="Código de barras" />}
           <Input name="name" placeholder="Nome do produto" maxlength="40" />
+          <Input 
+            name="cost"
+            type="number"
+            step="0.01"
+            placeholder="Valor de custo"
+          />
           <Input
             name="price"
             type="number"

@@ -32,7 +32,7 @@ function App() {
     <div className="container">
       <h2>O que gostaria de fazer :</h2>
       <div className="box-container">
-        <Link to="/inventory">
+        <Link to="/inventoryDash">
           <section>
             <h2>Estoque</h2>
 

@@ -58,6 +58,7 @@ export function SalesProvider({ children }) {
         name: item.name,
         originalPrice: item.originalPrice ? item.originalPrice : item.price,
         price: newPrice === 0 ? item.originalPrice : newPrice,
+        amount
       }
     })
 
@@ -95,11 +96,17 @@ export function SalesProvider({ children }) {
       return item.name;
     });
 
-    console.log("Descrição ", description);
+    const sendProducts = products.map(item => {
+      return {
+        id: item.id,
+      amount: Number(item.amount)
+      }
+    })
 
     const response = await api.post("/sales", {
       description,
       value: totalValue,
+      products: sendProducts
     });
 
     alert("Venda Finalizada");
