@@ -82,6 +82,7 @@ export function InventoryProvider({ children }) {
     formData.append("price", data.price);
     formData.append("amount", data.amount);
     formData.append("category_id", selectedValue.value);
+    formData.append("cost", data.cost);
 
     api.put(`/products/${currentData.id}`, formData, {
       headers: {

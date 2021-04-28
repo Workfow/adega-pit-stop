@@ -13,9 +13,8 @@ import Report from './pages/Report';
 
 import socket from "./services/socket";
 
-import { InventoryProvider } from "./contexts/InventoryContext";
-import { FinancialProvider } from "./contexts/FinancialContext";
 import { SalesContext } from "./contexts/SalesContext";
+import Cashier from "./pages/Cashier";
 
 export default function Router() {
   const { handleToggleSaleModal } = useContext(SalesContext);
@@ -38,6 +37,7 @@ export default function Router() {
         <Route path="/purchases" component={Purchases} />
         <Route path="/sales" component={Sales} />
         <Route path="/report" component={Report} />
+        <Route path="/cashier" component={Cashier} />
       </Switch>
     </HashRouter>
   );

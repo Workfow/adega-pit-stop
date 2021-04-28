@@ -18,26 +18,17 @@ import CostInput from '../CostInput';
 export default function PurchaseModal() {
   const { handleTogglePurchaseModal, submitForm, selectedProducts, setSelectedProducts } = useContext(FinancialContext);
   const [ options, setOptions ] = useState([]);
-  const [ cost, setCost ] = useState();
-  const [ costItem, setCostItem ] = useState();
 
   const formRef = useRef();
 
   setLocale(translation);
 
-  useEffect(() => {
-    console.log('Item ', costItem);
-    console.log('Cost ', cost);
-  }, [cost])
 
   useEffect(() => {
     setSelectedProducts([]);
   }, [])
 
-  function handleCost(item, cost) {
-    setCostItem(item);
-    setCost(cost);
-  }
+
 
   async function handleSubmit(data, {reset}) {
     
@@ -53,15 +44,9 @@ export default function PurchaseModal() {
         abortEarly: false
       })
 
-      if(!cost) {
-        alert('Insira o valor de custo');
-      } else {
-        const formCost = {
-          cost,
-          costItem
-        }
-        submitForm(data, formCost);
-      }
+      
+        submitForm(data);
+      
 
       reset();
 
@@ -137,6 +122,7 @@ export default function PurchaseModal() {
         <Form ref={formRef} onSubmit={handleSubmit}>
           <PdfInput name="invoice" placeholder="Clique aqui para adicionar um pdf" />
           <Input name="description" placeholder="Nome/Descrição da compra" />
+          <Input name="provider" placeholder="Fornecedor" />
           <Input name="value" type="number" step="0.01" placeholder="Valor da compra" />
           <Select 
             options={options}
@@ -152,7 +138,7 @@ export default function PurchaseModal() {
               <div className={styles.productItem}>
                 <span className={styles.itemName} >{item.label}</span>
                 <AmountInput currentItem={item} purchase={true} name="amount" type="number"/>
-                <CostInput name="cost" placeholder="Custo" type="number" step="0.01" value={cost} onChange={(event) => handleCost(item, event.target.value)} />
+                <CostInput currentItem={item} name="cost" placeholder="Custo" type="number" step="0.01" />
               </div>
             ))}
           </div>

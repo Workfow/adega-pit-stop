@@ -44,6 +44,27 @@ export function FinancialProvider({ children }) {
     }
   }
 
+  function changeCost(product, cost) {
+    const currentProduct = selectedProducts.filter(item => {
+      return item.value === product.value;
+    })
+
+    const currentProductIndex = selectedProducts.indexOf(currentProduct[0]);
+
+    const newProduct = {
+      value: currentProduct[0].value,
+      label: currentProduct[0].label,
+      amount: currentProduct[0].amount,
+      cost
+    }
+
+    let newProducts = products;
+
+    newProducts[currentProductIndex] = newProduct;
+
+    setProducts([...newProducts]);
+  }
+
   function changeProductAmount(product, amount) {
     let currentProduct = selectedProducts.filter((item) => {
       return item.value === product.value;
@@ -51,11 +72,11 @@ export function FinancialProvider({ children }) {
 
     const currentProductIndex = selectedProducts.indexOf(currentProduct[0]);
 
-    const newProduct = 
-      {
+    const newProduct = {
         value: currentProduct[0].value,
         label: currentProduct[0].label,
-        amount: Number(amount)
+        amount: Number(amount),
+        cost: currentProduct[0].cost && currentProduct[0].cost
       }
     
 
@@ -66,27 +87,24 @@ export function FinancialProvider({ children }) {
     setProducts([...newProducts]);
   }
 
-  async function submitForm(data, formCost) {
+  async function submitForm(data) {
     const formData = new FormData();
 
     const productsObj = JSON.stringify(products);
-
-    console.log(formCost)
-
-    const costResponse = await api.put(`/products/${formCost.costItem.value}`, {
-      cost: Number(formCost.cost)
-    })
 
     formData.append("invoice", data.invoice);
     formData.append("description", data.description);
     formData.append("value", data.value);
     formData.append("products", productsObj);
+    formData.append("provider", data.provider);
 
     const response = await api.post("/purchases", formData, {
       headers: {
         "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
       },
     });
+
+    console.log(response);
 
     alert("Compra cadastrada");
     handleTogglePurchaseModal();
@@ -128,6 +146,7 @@ export function FinancialProvider({ children }) {
         changeProductAmount,
         selectedProducts,
         setSelectedProducts,
+        changeCost
       }}
     >
       {children}

@@ -14,8 +14,16 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      provider: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       value: {
         type: Sequelize.FLOAT,
+        allowNull: false,
+      },
+      products: {
+        type: Sequelize.ARRAY(Sequelize.JSON),
         allowNull: false,
       },
       created_at: {

@@ -47,9 +47,8 @@
   grid-area: a;
 }
 
-.sectionCards a:last-child section {
-  background: var(--green);
-  grid-area: b;
+.sectionCards a:nth-child(3) section {
+  background: var(--dark);
 }
 
 .sectionCards section:hover {

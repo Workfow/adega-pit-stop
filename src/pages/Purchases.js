@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { FormattedNumber, IntlProvider } from "react-intl";
+import { FormattedNumber, IntlProvider, FormattedDate } from "react-intl";
 import styles from "../styles/pages/Purchases.module.css";
 import { FiFileText, FiPlus } from "react-icons/fi";
 import api from "../services/api";
@@ -14,17 +14,28 @@ export default function Purchases() {
   } = useContext(FinancialContext);
   const [purchases, setPurchases] = useState([]);
   const [totalValue, setTotalValue] = useState(0);
+  const [hasDateClicked, setHasDateClicked] = useState(false);
 
-  async function loadPurchases() {
-    const response = await api.get("/purchases");
+  async function loadPurchases(order) {
+    const response = await api.get(`/purchases?order=${order}`);
 
     setTotalValue(response.data.totalValue);
     setPurchases(response.data.purchases);
   }
 
   useEffect(() => {
-    loadPurchases();
+    loadPurchases("DESC");
   }, [submitForm]);
+
+  function handleChangeDateList() {
+    setHasDateClicked(!hasDateClicked);
+
+    if(!hasDateClicked) {
+      loadPurchases("ASC");
+    } else {
+      loadPurchases("DESC");
+    }
+  }
 
   return (
     <>
@@ -40,6 +51,9 @@ export default function Purchases() {
           <IntlProvider locale="pt">
             <ul>
               <header>
+                <span className={styles.dateChange} onClick={handleChangeDateList} >
+                  { hasDateClicked ? 'CLIQUE AQUI PARA ORGANIZAR POR VENDAS MAIS RECENTES': 'CLIQUE AQUI PARA MUDAR A ORDEM PARA MAIS ANTIGOS'}
+                </span>
                 <span>Valor total:</span>{" "}
                 <span>
                   {" "}
@@ -70,6 +84,9 @@ export default function Purchases() {
                           size={25}
                         />
                       </div>
+                      <strong>
+                        <FormattedDate value={item.createdAt}/>
+                      </strong>
                     </li>
                   ))}
                 </div>

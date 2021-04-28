@@ -6,8 +6,8 @@ const ProductController = require('./controllers/ProductController');
 const PurchaseController = require('./controllers/PurchaseController');
 const SalesController = require('./controllers/SalesController');
 const CategoryController = require('./controllers/CategoryController');
-
-const Product = require('./models/Product');
+const CashierController = require('./controllers/CashierController');
+const ActionsController = require('./controllers/ActionsController');
 
 const routes = express.Router();
 
@@ -39,6 +39,13 @@ routes.get('/categories', CategoryController.index);
 routes.get('/categories/:id', CategoryController.indexOne);
 routes.post('/categories', CategoryController.store);
 routes.delete('/categories/:id', CategoryController.destroy);
+
+//Cashier
+routes.get('/cashier', CashierController.index);
+routes.post('/cashier', CashierController.store);
+
+//Actions
+routes.get('/actions', ActionsController.index);
 
 //Files
 routes.get('/icon', (req, resp) => {
