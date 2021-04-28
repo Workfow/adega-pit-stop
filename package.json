@@ -21,7 +21,6 @@
     "node-thermal-printer": "^4.1.2",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
-    "printer": "^0.4.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
@@ -30,6 +29,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-select": "^4.3.0",
+    "react-to-print": "^2.12.4",
     "sequelize": "^6.5.0",
     "socket.io": "^4.0.0",
     "socket.io-client": "^4.0.0",
@@ -48,7 +48,7 @@
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "electron-build": "electron-builder",
-    "dev": "concurrently \"BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\" ",
+    "dev": "concurrently \"yarn react-start\" \"wait-on http://localhost:3000 && electron .\" ",
     "build": "yarn react-build && yarn electron-build"
   },
   "eslintConfig": {

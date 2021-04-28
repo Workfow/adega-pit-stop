@@ -1,12 +1,21 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useRef } from "react";
 import SaleModal, { SaleModalButton } from "../components/SaleModal";
 import SalePreviewModal from '../components/SalePreviewModal';
 import api from "../services/api";
 import socket from "../services/socket";
+import PrintModel from '../components/PrintModel';
+import { useReactToPrint } from 'react-to-print';
 
 export const SalesContext = createContext({});
 
+export const SalesConsumer = SalesContext.Consumer;
+
 export function SalesProvider({ children }) {
+  const printRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+  })
+
   const [isSaleModalOpen, setIsSaleModalOpen] = useState(false);
   const [isSaleModalActive, setIsSaleModalActive] = useState(false);
   const [ isSalePreviewModalOpen, setIsSalePreviewModalOpen] = useState(false);
@@ -15,6 +24,12 @@ export function SalesProvider({ children }) {
   const [ salesTotalValue, setSalesTotalValue] = useState(0);
   const [products, setProducts] = useState([]);
   const [totalValue, setTotalValue] = useState(0);
+
+  useEffect(() => {
+    socket.on("confirm_sale", (data) => {
+      console.log(products);
+    });
+  }, []);
 
   useEffect(() => {
     socket.on("scanned_products", (data) => {
@@ -110,11 +125,14 @@ export function SalesProvider({ children }) {
       products: sendProducts
     });
 
+    handlePrint();
+
     alert("Venda Finalizada");
     
     socket.emit('finish_sale')
 
     closeSaleModal();
+    
   }
 
   function handleToggleSalePreviewModal(item) {
@@ -159,13 +177,15 @@ export function SalesProvider({ children }) {
         handleDeleteSale,
         loadSales,
         sales,
-        salesTotalValue
+        salesTotalValue,
+        handlePrint
       }}
     >
       {children}
       {isSaleModalOpen && <SaleModal />}
       {isSaleModalActive && !isSaleModalOpen && <SaleModalButton />}
       {isSalePreviewModalOpen && <SalePreviewModal /> }
+      <PrintModel ref={printRef} />
     </SalesContext.Provider>
   );
 }

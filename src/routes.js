@@ -15,6 +15,7 @@ import socket from "./services/socket";
 
 import { SalesContext } from "./contexts/SalesContext";
 import Cashier from "./pages/Cashier";
+import PrintModel from "./components/PrintModel";
 
 export default function Router() {
   const { handleToggleSaleModal } = useContext(SalesContext);
