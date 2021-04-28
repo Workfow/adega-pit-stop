@@ -39,6 +39,7 @@ export default function InventoryModal({ buttonText, update }) {
 
         const schema = Yup.object().shape({
           name: Yup.string().min(4).required(),
+          cost: Yup.number().min(1).required(),
           price: Yup.number().required(),
           amount: Yup.number().required(),
         });
@@ -140,6 +141,7 @@ export default function InventoryModal({ buttonText, update }) {
     update
       ? formRef.current.setData({
           name: currentData.name,
+          cost: currentData.cost,
           price: currentData.price,
           amount: currentData.amount,
         })

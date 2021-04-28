@@ -5,7 +5,7 @@ const Product = require("../models/Product");
 
 module.exports = {
   async store(req, resp) {
-    const { description, value, products } = req.body;
+    const { description, value, products, provider } = req.body;
     const invoice = req.file?.filename;
 
     const currentProducts = JSON.parse(products);
@@ -17,24 +17,29 @@ module.exports = {
     if (dbPurchase) {
       return resp.json({ error: "Compra ja cadastrada no sistema" });
     } else {
-
       try {
-        const purchase = await Purchase.create({ invoice, description, value });
+
+        let productsArr = [];
 
         for (let i = 0; i < currentProducts.length; i++) {
           const currentProduct = await Product.findOne({
             where: { id: currentProducts[i].value },
           });
 
+          productsArr.push(currentProduct);
+
           const currentAmount = currentProduct.amount;
 
           await Product.update(
             {
               amount: currentAmount + currentProducts[i].amount,
+              cost: currentProducts[i].cost
             },
             { where: { id: currentProducts[i].value } }
           );
         }
+
+        const purchase = await Purchase.create({ invoice, description, value, provider, products: productsArr });
 
         return resp.json(purchase);
       } catch (error) {
@@ -44,7 +49,10 @@ module.exports = {
   },
 
   async index(req, resp) {
-    const purchases = await Purchase.findAll();
+    const { order } = req.query;
+    const purchases = await Purchase.findAll({
+      order: [['created_at', order]]
+    });
 
     if (purchases.length == 0) {
       return resp.json({ message: "Nenhuma compra cadastrada ainda" });
@@ -114,15 +122,17 @@ module.exports = {
       where: { id },
     });
 
-    const removePath = path.resolve(
-      __dirname,
-      "..",
-      "..",
-      "uploads",
-      `invoices/${file.invoice}`
-    );
+    if (file.invoice) {
+      const removePath = path.resolve(
+        __dirname,
+        "..",
+        "..",
+        "uploads",
+        `invoices/${file.invoice}`
+      );
 
-    fs.unlinkSync(removePath);
+      fs.unlinkSync(removePath);
+    }
 
     return resp.json({ message: "Compra excluída com sucesso" });
   },

@@ -19,12 +19,12 @@ export default function Financial() {
             <p>Clique aqui para ver um relatório de suas vendas</p>
           </section>
         </Link>
-        {/* <Link to="/report">
+        <Link to="/cashier">
           <section>
-            <h3>Geral</h3>
-            <p>Clique aqui para ver um relatório geral</p>
+            <h3>Caixa</h3>
+            <p>Clique aqui para abrir ou fechar o caixa</p>
           </section>
-        </Link> */}
+        </Link>
       </div>
     </div>
   );

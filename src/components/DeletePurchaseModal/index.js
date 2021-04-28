@@ -27,6 +27,29 @@ export default function DeletePurchaseModal() {
             </span>
           </div>
 
+          <div className={styles.productsList} >
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Custo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {deleteData.products.map(item => (
+                  <tr>
+                    <td>{item.name}</td>
+                    <td>{item.amount}</td>
+                    <td>
+                      <FormattedNumber value={item.cost} style="currency" currency="BRL" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
           <div>
             <button onClick={handleToggleDeletePurchaseModal}>Não</button>
             <button onClick={() => handleDeletePurchases(deleteData.id)}>Sim</button>

@@ -5,7 +5,9 @@ class Purchase extends Model {
     super.init({
       invoice: DataTypes.STRING,
       description: DataTypes.STRING,
-      value: DataTypes.FLOAT 
+      provider: DataTypes.STRING,
+      value: DataTypes.FLOAT,
+      products: DataTypes.ARRAY(DataTypes.JSON)
     }, {
       sequelize
     })

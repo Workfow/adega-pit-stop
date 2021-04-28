@@ -1,5 +1,6 @@
 const Sales = require('../models/Sales');
 const Product = require('../models/Product');
+const Cashier = require('../models/Cashier');
 
 module.exports = {
   async store(req, resp) {
@@ -21,6 +22,16 @@ module.exports = {
       description,
       value
     })
+
+    const dbCashier = await Cashier.findAll();
+
+    let cashierValue = dbCashier[0].value + value;
+
+    if(dbCashier[0].is_open) {
+      await Cashier.update({ value: cashierValue }, {
+        where: { id: dbCashier[0].id }
+      })
+    }
 
     return resp.json(sale);
   },

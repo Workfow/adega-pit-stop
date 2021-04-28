@@ -54,6 +54,7 @@ export function SalesProvider({ children }) {
     }
   }
 
+
   function changeAmount(barcode, amount) {
     const currentProduct = products.filter(value => {
       return value.barcode.includes(barcode);
