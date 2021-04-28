@@ -1,10 +1,12 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import styles from "../../styles/components/SaleModal.module.css";
 import socket from "../../services/socket";
 import { FiMinus, FiX, FiDollarSign } from "react-icons/fi";
 import { SalesContext } from "../../contexts/SalesContext";
 import AmountInput from "../AmountInput/index";
 import { IntlProvider, FormattedNumber } from "react-intl";
+import PrintModel from '../PrintModel';
+import { useReactToPrint } from 'react-to-print';
 
 export default function SaleModal() {
   const {
@@ -14,6 +16,7 @@ export default function SaleModal() {
     products,
     totalValue,
     finishSale,
+    handlePrint
   } = useContext(SalesContext);
   const [changeClass, setChangeClass] = useState(styles.invisible);
   const [changeInput, setChangeInput] = useState("");
@@ -22,6 +25,7 @@ export default function SaleModal() {
 
   useEffect(() => {
     socket.on("confirm_sale", () => {
+      handlePrint();
       setIsConfirmWindowOpen(false);
       closeSaleModal();
     });

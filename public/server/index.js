@@ -36,8 +36,8 @@ io.on('connection', (socket) => {
     io.emit('finish_sale');
   })
 
-  socket.on('confirm_sale', () => {
-    io.emit('confirm_sale');
+  socket.on('confirm_sale', (data) => {
+    io.emit('confirm_sale', data);
   })
 })
 

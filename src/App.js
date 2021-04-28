@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import api from './services/api';
 import socket from './services/socket';
 import { Link } from "react-router-dom";
@@ -9,7 +9,6 @@ function App() {
   const { handleToggleModal } = useContext(InventoryContext);
   const [ recentProducts, setRecentProducts ] = useState([]);
   const [ recentPurchases, setRecentPurchases ] = useState([]);
-
   async function loadRecent() {
     const product = await api.get('/products-recent');
     const purchase = await api.get('/purchases-recent');
@@ -28,7 +27,9 @@ function App() {
     })
   }, [])
 
+
   return (
+    <>
     <div className="container">
       <h2>O que gostaria de fazer :</h2>
       <div className="box-container">
@@ -65,6 +66,7 @@ function App() {
         </Link>
       </div>
     </div>
+    </>
   );
 }
 

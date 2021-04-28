@@ -6,9 +6,11 @@ import { SalesContext } from "../../contexts/SalesContext";
 import styles from "../../styles/components/SalePreviewModal.module.css";
 
 export default function SalePreviewModal() {
-  const { handleToggleSalePreviewModal, currentItemPreview, handleDeleteSale } = useContext(
+  const { handleToggleSalePreviewModal, currentItemPreview, handleDeleteSale, setProducts, handlePrint } = useContext(
     SalesContext
   );
+
+  console.log(currentItemPreview);
 
   return (
     <div className={styles.overlay}>

@@ -1,0 +1,42 @@
+.receiptContainer {
+    flex-direction: column;
+    align-items: start;
+    text-align: center;
+    justify-content: center;
+    height: 100% !important;
+    display: none;
+}
+
+.receiptContainer h2 {
+  width: 2.7in;
+}
+
+.receiptContainer table {
+  text-align: center;
+}
+
+.receiptContainer table tr {
+  display: flex;
+  width: 2.7in;
+  justify-content: space-between;
+}
+
+.receiptContainer p {
+  width: 2.7in;
+  font-size: 1.1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+@media print {
+  @page {
+    size: 8.5in 8.5in portrait;
+    margin:0;
+    position: absolute;
+    left: 0;
+  }
+
+  .receiptContainer {
+    display: flex;
+  }
+}

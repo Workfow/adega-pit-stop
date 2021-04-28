@@ -16,6 +16,7 @@ import socket from "./services/socket";
 import { InventoryProvider } from "./contexts/InventoryContext";
 import { FinancialProvider } from "./contexts/FinancialContext";
 import { SalesContext } from "./contexts/SalesContext";
+import PrintModel from "./components/PrintModel";
 
 export default function Router() {
   const { handleToggleSaleModal } = useContext(SalesContext);
